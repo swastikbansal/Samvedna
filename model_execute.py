@@ -58,7 +58,8 @@ DATA_PATH = os.path.join('MP_Data')
 # LAbels for data
 # actions = np.array(['hello', 'thanks', 'iloveyou'])
 
-actions = np.array(['hello', 'thanks', 'iloveyou','clap', 'sign','please','learn'])
+actions = np.array(['house','clap', 'sign','please','learn'])
+# actions = np.array(['clap', 'sign','please','learn'])
 
 no_sequences = 30 # no. of vedios
 
