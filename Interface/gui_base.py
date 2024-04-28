@@ -27,7 +27,7 @@ class GUI:
         self.canvas.place(x=0, y=0)
 
         self.image_1 = self.load_image("image_1.png", 750.0, 53.0)
-        self.image_2 = self.load_image("image_2.png", 800.0, 447.0)
+        self.image_2 = self.load_image("image_2.png", 772.0, 447.0)
         self.image_3 = self.load_image("image_3.png", 55.0, 390.0)
 
         self.image_4 = self.load_image("image_4.png", 50.0, 459.0)
