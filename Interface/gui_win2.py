@@ -41,7 +41,7 @@ class GUI:
 
         self.entry_image_1 = self.load_image("entry_1.png", 806.0, 724.0)
         self.entry_1 = Entry(bd=0, bg="#141416", fg="#000716", highlightthickness=0)
-        self.entry_1.place(x=176.0, y=684.0, width=1260.0, height=78.0)
+        self.entry_1.place(x=176.0, y=685.0, width=1260.0, height=78.0)
 
     def on_button_3_click(self):
         print("Button 3 clicked!")
