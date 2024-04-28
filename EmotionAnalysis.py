@@ -1,4 +1,5 @@
 import cv2
+import os 
 
 def capture_and_save_image():
     # Open the default camera (usually the webcam)
@@ -38,6 +39,5 @@ def query(filename):
     response = requests.post(API_URL, headers=headers, data=data)
     return response.json()
 
-output = query("C:\\Users\\vidit shrama\\codeCult\\captured_image.jpg")
-
-print(output[0])
+output = query(os.getcwd() + "\captured_image.jpg")
+print(output)
