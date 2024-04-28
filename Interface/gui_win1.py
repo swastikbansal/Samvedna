@@ -2,6 +2,13 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win2 import ThirdGUI
 from gui_win3 import FourthGUI
+import threading
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from model_execute import Model
 
 class SecondGUI:
     OUTPUT_PATH = Path(__file__).parent
@@ -73,11 +80,21 @@ class SecondGUI:
 
     def on_button_4_click(self):
         self.window.destroy()
+        model = Model()
+        # model.execute()
         second_window = ThirdGUI(self.shared_data)
-        second_window.run()
+        # second_window.run()
+        
+        
+        thread1 = threading.Thread(target=model.execute)
+        thread1.start()
+        
+        thread2 = threading.Thread(target=second_window.run)
+        thread2.start()
 
     def on_button_5_click(self):
         self.window.destroy()
+        
         second_window = FourthGUI(self.shared_data)
         second_window.run()
 
