@@ -18,7 +18,7 @@ def capture_and_save_image():
         return
     
     # Save the captured frame
-    file_name = "emotion_image.jpg"
+    file_name = "general_image.jpg"
     cv2.imwrite(file_name, frame)
     print(f"Image saved as {file_name}")
     
@@ -27,10 +27,9 @@ def capture_and_save_image():
 
 capture_and_save_image()
 
-
 import requests
 
-API_URL = "https://api-inference.huggingface.co/models/dima806/facial_emotions_image_detection"
+API_URL = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large"
 headers = {"Authorization": "Bearer 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"}
 
 def query(filename):
@@ -39,5 +38,5 @@ def query(filename):
     response = requests.post(API_URL, headers=headers, data=data)
     return response.json()
 
-output = query(os.getcwd() + "\emotion_image.jpg")
-print(output[0])
+output = query(os.getcwd() + "\general_image.jpg")
+print(output)
