@@ -1,82 +1,103 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> afa969db1b71c20f17d26b10964407bd4083f244
 from pathlib import Path
+from tkinter import Tk, Canvas, Button, PhotoImage
+from gui_win2 import ThirdGUI
+from gui_win3 import FourthGUI
 
-# from tkinter import *
-# Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+class SecondGUI:
+    OUTPUT_PATH = Path(__file__).parent
+    ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win1")
+
+    def __init__(self, shared_data=None):
+        self.window = Tk()
+        self.window.geometry("1500x780")
+        self.window.configure(bg="#141416")
+        self.window.resizable(False, False)
+        self.shared_data = shared_data
+
+        self.canvas = Canvas(
+            self.window,
+            bg="#141416",
+            height=780,
+            width=1500,
+            bd=0,
+            highlightthickness=0,
+            relief="ridge",
+        )
+        self.canvas.place(x=0, y=0)
+
+        self.image_1 = self.load_image("image_1.png", 750.0, 80.0)
+
+        self.image_2 = self.load_image("image_2.png", 1406.0, 81.0)
+        self.button_2 = Button(
+            self.window,
+            image=self.image_2,
+            bg="#141416",
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.on_button_2_click,
+        )
+        self.button_2.place(x=1370.0, y=40.0)
+
+        self.image_3 = self.load_image("image_3.png", 827.0, 478.0)
+
+        self.image_4 = self.load_image("image_4.png", 496.0, 534.0)
+        self.button_4 = Button(
+            self.window,
+            image=self.image_4,
+            bg="#141416",
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.on_button_4_click,
+        )
+        self.button_4.place(x=345.0, y=380.0)
+
+        self.image_5 = self.load_image("image_5.png", 1148.0, 534.0)
+        self.button_5 = Button(
+            self.window,
+            image=self.image_5,
+            bg="#141416",
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.on_button_5_click,
+        )
+        self.button_5.place(x=1000.0, y=385.0)
+
+        self.image_6 = self.load_image("image_6.png", 70.0, 390.0)
+
+    def on_button_2_click(self):
+        self.window.destroy()
+        from gui_base import GUI
+
+        second_window = GUI(self.shared_data)
+        second_window.run()
+
+    def on_button_4_click(self):
+        self.window.destroy()
+        second_window = ThirdGUI(self.shared_data)
+        second_window.run()
+
+    def on_button_5_click(self):
+        self.window.destroy()
+        second_window = FourthGUI(self.shared_data)
+        second_window.run()
+
+    @staticmethod
+    def relative_to_assets(path: str) -> Path:
+        return SecondGUI.ASSETS_PATH / Path(path)
+
+    def load_image(self, image_path, x, y):
+        image = PhotoImage(file=self.relative_to_assets(image_path))
+        self.canvas.create_image(x, y, image=image)
+        return image
+
+    def run(self):
+        self.window.mainloop()
 
 
-OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win1")
-
-
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
-
-
-window = Tk()
-
-window.geometry("1500x780")
-window.configure(bg = "#141416")
-
-
-canvas = Canvas(
-    window,
-    bg = "#141416",
-    height = 780,
-    width = 1500,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
-)
-
-canvas.place(x = 0, y = 0)
-image_image_1 = PhotoImage(
-    file=relative_to_assets("image_1.png"))
-image_1 = canvas.create_image(
-    750.0,
-    80.0,
-    image=image_image_1
-)
-
-image_image_2 = PhotoImage(
-    file=relative_to_assets("image_2.png"))
-image_2 = canvas.create_image(
-    1406.0,
-    81.0,
-    image=image_image_2
-)
-
-image_image_3 = PhotoImage(
-    file=relative_to_assets("image_3.png"))
-image_3 = canvas.create_image(
-    827.0,
-    478.9766845703125,
-    image=image_image_3
-)
-
-image_image_4 = PhotoImage(
-    file=relative_to_assets("image_4.png"))
-image_4 = canvas.create_image(
-    496.0,
-    534.0,
-    image=image_image_4
-)
-
-image_image_5 = PhotoImage(
-    file=relative_to_assets("image_5.png"))
-image_5 = canvas.create_image(
-    1148.0,
-    534.0,
-    image=image_image_5
-)
-
-image_image_6 = PhotoImage(
-    file=relative_to_assets("image_6.png"))
-image_6 = canvas.create_image(
-    70.0,
-    390.0,
-    image=image_image_6
-)
-window.resizable(False, False)
-window.mainloop()
+if __name__ == "__main__":
+    gui = SecondGUI()
+    gui.run()
