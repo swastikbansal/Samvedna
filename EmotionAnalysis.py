@@ -40,4 +40,4 @@ def query(filename):
 
 output = query("C:\\Users\\vidit shrama\\codeCult\\captured_image.jpg")
 
-print(output)
+print(output[0])
