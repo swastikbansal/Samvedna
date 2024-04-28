@@ -56,9 +56,9 @@ def extract_keypoints(results):
 DATA_PATH = os.path.join('MP_Data') 
 
 # LAbels for data
-# actions = np.array(['hello', 'thanks', 'iloveyou'])
+actions = np.array(['hello', 'thanks', 'iloveyou'])
 
-actions = np.array(['house','clap', 'sign','please','learn'])
+# actions = np.array(['house','clap', 'sign','please','learn'])
 # actions = np.array(['clap', 'sign','please','learn'])
 
 no_sequences = 30 # no. of vedios
@@ -87,8 +87,8 @@ model.add(Dense(actions.shape[0], activation='softmax'))
 #Loading model weights
 model.load_weights('action.h5')
 
-#function for pribablity vizualization
-colors = [(245,117,16), (117,245,16), (16,117,245), (16,117,245), (16,117,245)]
+#function for probablity vizualization
+colors = [(245,117,16), (117,245,16), (16,117,245)]
 def prob_viz(res, actions, input_frame, colors):
     output_frame = input_frame.copy()
     for num, prob in enumerate(res):
@@ -110,7 +110,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         # Make detections
         image, results = mediapipe_detection(frame, holistic)
-        # print(results)
         
         draw_styled_landmarks(image, results)
         
@@ -121,7 +120,6 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
         
         if len(sequence) == 30:
             res = model.predict(np.expand_dims(sequence, axis=0))[0]
-            # print(actions[np.argmax(res)])
             
             
         #3. Text Script
