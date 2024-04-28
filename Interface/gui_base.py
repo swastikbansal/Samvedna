@@ -1,6 +1,12 @@
 from pathlib import Path
+<<<<<<< HEAD
+
+# Explicit imports to satisfy Flake8
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+=======
 from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win1 import SecondGUI
+>>>>>>> afa969db1b71c20f17d26b10964407bd4083f244
 
 
 class GUI:
