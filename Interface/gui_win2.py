@@ -7,6 +7,7 @@ class ThirdGUI:
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win2")
 
     def __init__(self, shared_data=None):
+        print("Window 3")
         self.window = Tk()
         self.window.geometry("1500x780")
         self.window.configure(bg="#141416")
