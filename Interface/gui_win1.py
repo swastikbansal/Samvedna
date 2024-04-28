@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> afa969db1b71c20f17d26b10964407bd4083f244
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win2 import ThirdGUI
