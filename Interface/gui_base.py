@@ -1,16 +1,19 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
+from gui_win1 import SecondGUI
 
 
 class GUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_baseui")
 
-    def __init__(self):
+    def __init__(self, shared_data=None):
         self.window = Tk()
         self.window.geometry("1500x780")
         self.window.configure(bg="#141416")
         self.window.resizable(False, False)
+        self.shared_data = shared_data
+        self.shared_data = {"key": "value"}
 
         self.canvas = Canvas(
             self.window,
@@ -64,7 +67,9 @@ class GUI:
         print("Button 4 clicked!")
 
     def on_button_5_click(self):
-        print("Button 5 clicked!")
+        self.window.destroy()
+        second_window = SecondGUI(self.shared_data)
+        second_window.run()
 
     def on_button_6_click(self):
         print("Button 6 clicked!")

@@ -1,16 +1,18 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
+from gui_win2 import ThirdGUI
+from gui_win3 import FourthGUI
 
-
-class GUI:
+class SecondGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win1")
 
-    def __init__(self):
+    def __init__(self, shared_data=None):
         self.window = Tk()
         self.window.geometry("1500x780")
         self.window.configure(bg="#141416")
         self.window.resizable(False, False)
+        self.shared_data = shared_data
 
         self.canvas = Canvas(
             self.window,
@@ -63,17 +65,25 @@ class GUI:
         self.image_6 = self.load_image("image_6.png", 70.0, 390.0)
 
     def on_button_2_click(self):
-        print("Button 2 clicked!")
+        self.window.destroy()
+        from gui_base import GUI
+
+        second_window = GUI(self.shared_data)
+        second_window.run()
 
     def on_button_4_click(self):
-        print("Button 4 clicked!")
+        self.window.destroy()
+        second_window = ThirdGUI(self.shared_data)
+        second_window.run()
 
     def on_button_5_click(self):
-        print("Button 5 clicked!")
+        self.window.destroy()
+        second_window = FourthGUI(self.shared_data)
+        second_window.run()
 
     @staticmethod
     def relative_to_assets(path: str) -> Path:
-        return GUI.ASSETS_PATH / Path(path)
+        return SecondGUI.ASSETS_PATH / Path(path)
 
     def load_image(self, image_path, x, y):
         image = PhotoImage(file=self.relative_to_assets(image_path))
@@ -85,5 +95,5 @@ class GUI:
 
 
 if __name__ == "__main__":
-    gui = GUI()
+    gui = SecondGUI()
     gui.run()
