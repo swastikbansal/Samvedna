@@ -2,25 +2,23 @@ from pathlib import Path
 from tkinter import Button, Tk, Canvas, Entry, PhotoImage
 
 
-class App:
+class FifthGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win4")
 
-    def __init__(self, window, shared_data=None):
+    def __init__(self, shared_data=None):
 
-        self.window = window
-        self.setup_window()
+        self.window = Tk()
+
         self.create_widgets()
-        self.shared_data = shared_data
-
-    def setup_window(self):
         self.window.geometry("1500x780")
         self.window.configure(bg="#141416")
         self.window.resizable(False, False)
+        self.shared_data = shared_data 
 
     @staticmethod
     def relative_to_assets(path: str) -> Path:
-        return App.ASSETS_PATH / Path(path)
+        return FifthGUI.ASSETS_PATH / Path(path)
 
     def load_image(self, image_path, x, y):
         image = PhotoImage(file=self.relative_to_assets(image_path))
@@ -78,7 +76,10 @@ class App:
         print("Button 3 clicked!")    
 
 
+    def run(self):
+        self.window.mainloop()
+
+
 if __name__ == "__main__":
-    window = Tk()
-    app = App(window)
-    window.mainloop()
+    gui = FifthGUI()
+    gui.run()

@@ -1,6 +1,7 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win1 import SecondGUI
+from gui_win4 import FifthGUI
 
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -67,7 +68,9 @@ class GUI:
         self.button_6.place(x=20.0, y=320)
 
     def on_button_4_click(self):
-        print("Button 4 clicked!")
+        self.window.destroy()
+        second_window = FifthGUI(self.shared_data)
+        second_window.run()
 
     def on_button_5_click(self):
         self.window.destroy()
@@ -75,7 +78,9 @@ class GUI:
         second_window.run()
 
     def on_button_6_click(self):
-        print("Button 6 clicked!")
+        self.window.destroy()
+        second_window = FifthGUI(self.shared_data)
+        second_window.run()
 
     @staticmethod
     def relative_to_assets(path: str) -> Path:
