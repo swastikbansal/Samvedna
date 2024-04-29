@@ -2,8 +2,7 @@ from pathlib import Path
 from tkinter import Button, Tk, Canvas, Entry, PhotoImage
 
 
-
-class FifthGUI:
+class SixthGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win4")
 
@@ -19,7 +18,7 @@ class FifthGUI:
 
     @staticmethod
     def relative_to_assets(path: str) -> Path:
-        return FifthGUI.ASSETS_PATH / Path(path)
+        return SixthGUI.ASSETS_PATH / Path(path)
 
     def load_image(self, image_path, x, y):
         image = PhotoImage(file=self.relative_to_assets(image_path))
@@ -81,5 +80,5 @@ class FifthGUI:
 
 
 if __name__ == "__main__":
-    gui = FifthGUI()
+    gui = SixthGUI()
     gui.run()
