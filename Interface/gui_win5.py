@@ -1,6 +1,14 @@
 from pathlib import Path
 from tkinter import Button, Tk, Canvas, Entry, PhotoImage
 
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from ImageSummarizer import ImageSummarizer
+import os
+
 
 class SixthGUI:
     OUTPUT_PATH = Path(__file__).parent
@@ -51,7 +59,13 @@ class SixthGUI:
 
         self.entry_image_1 = self.load_image("entry_1.png", 809.0, 594.5)
 
-        self.entry_1 = Entry(bd=0, bg="#141416", fg="#000716", highlightthickness=0)
+        self.entry_1 = Entry(
+            bd=0,
+            bg="#141416",
+            fg="#ffffff",
+            font=("Helvetica", 20),
+            highlightthickness=0,
+        )
         self.entry_1.place(x=179.0, y=430.0, width=1260.0, height=331.0)
 
         self.image_3 = self.load_image("image_3.png", 824.0, 209.0)
@@ -73,7 +87,13 @@ class SixthGUI:
         second_window.run()
 
     def on_button_3_click(self):
-        print("Button 3 clicked!")
+        summarizer = ImageSummarizer()
+        summarizer.capture_and_save_image()
+        output = summarizer.query(os.getcwd() + "\general_image.jpg")
+        formatted_output = output[0]["generated_text"].capitalize()
+        formatted_output += "."
+        self.entry_1.delete(0, "end")
+        self.entry_1.insert(0, formatted_output)
 
     def run(self):
         self.window.mainloop()
