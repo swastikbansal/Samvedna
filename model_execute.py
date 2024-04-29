@@ -9,7 +9,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.callbacks import TensorBoard
-
+import requests
 
 class Model:
     def execute(self):
@@ -152,4 +152,15 @@ class Model:
             cap.release()
             cv2.destroyAllWindows()
 
-        print(sentence)
+        API_URL = "https://api-inference.huggingface.co/models/vennify/t5-base-grammar-correction"
+        headers = {"Authorization": "Bearer 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"}
+
+        def query(payload):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            return response.json()
+            
+        output = query({
+            "inputs": sentence,
+        })
+        
+        print(output)

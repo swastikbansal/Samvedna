@@ -85,7 +85,6 @@ class SecondGUI:
         second_window = ThirdGUI(self.shared_data)
         # second_window.run()
         
-        
         thread1 = threading.Thread(target=model.execute)
         thread1.start()
         

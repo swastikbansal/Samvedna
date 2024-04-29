@@ -1,1 +1,0 @@
-C:\Users\vidit shrama\Downloads\filtered_data\captured_image.jpg

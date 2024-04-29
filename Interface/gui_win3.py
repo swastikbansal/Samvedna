@@ -1,6 +1,10 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, PhotoImage, Button
-
+import tkinter as tk
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from Text2ASL import T2S
 
 class FourthGUI:
     OUTPUT_PATH = Path(__file__).parent
@@ -64,14 +68,76 @@ class FourthGUI:
         self.image_6 = self.load_image("image_6.png", 60.0, 391.02142333984375)
 
         self.entry_image_1 = self.load_image("entry_1.png", 464.0, 643.0)
-        self.entry_1 = Entry(bd=0, bg="#141416", fg="#000716", highlightthickness=0)
+        self.entry_1 = Entry(bd=0, bg="#141416", fg="#ffffff", font=("Arial", 20),highlightthickness=0)
         self.entry_1.place(x=194.0, y=534.0, width=540.0, height=218.0)
 
     def on_button_2_click(self):
-        print("Button 2 clicked!")
-
+        # t = T2S()
+        # text = t.speech_to_text()
+        # self.entry_1.delete(0, tk.END)
+        # self.entry_1.insert(0, text)
+        pass
     def on_button_3_click(self):
-        print("Button 3 clicked!")
+        print("Convert")
+        entry = self.entry_1.get()
+        t = T2S()
+        from PIL import Image, ImageTk
+        import os
+        import io
+
+        # Create a container widget to display the video widgets
+        folder_path = os.getcwd() + r'\ASL dataset' # Change this to the path of your image folder
+        video_widgets = t.display_word_videos(entry,folder_path)
+
+        self.vedio_canvas = Canvas(
+            self.window,
+            bg="#141416",
+            height=500,
+            width=500,
+            bd=0,
+            highlightthickness=0,
+            relief="ridge",
+        )
+        self.vedio_canvas.place(x=880, y=400)
+
+        # Create a list to store the PhotoImage objects
+        self.photos = []
+
+        # Create a generator that yields the PhotoImage objects
+        def get_photos():
+            for widget in video_widgets:
+                # Save the image data to a BytesIO object
+                image_data = io.BytesIO(widget.value)
+
+                # Open the image data with PIL
+                image = Image.open(image_data)
+
+                # Convert the PIL Image to a PIL ImageTk.PhotoImage
+                photo = ImageTk.PhotoImage(image)
+
+                # Store the PhotoImage object in the list
+                self.photos.append(photo)
+
+                yield photo
+
+        self.photo_gen = get_photos()
+
+        def update_image():
+            try:
+                # Get the next PhotoImage object from the generator
+                photo = next(self.photo_gen)
+
+                # Display the image on the canvas
+                self.vedio_canvas.create_image(0, 0, image=photo, anchor=tk.NW)
+
+                # Schedule the next update
+                self.window.after(500, update_image)  # Adjust the delay as needed
+            except StopIteration:
+                pass  # No more images to display
+
+        # Start the update process
+        update_image()
+           
 
     def on_button_5_click(self):
         self.window.destroy()
