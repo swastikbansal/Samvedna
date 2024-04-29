@@ -1,6 +1,11 @@
 from pathlib import Path
-from tkinter import Button, Tk, Canvas, Entry, PhotoImage
+from tkinter import Button, Tk, Canvas, Entry, PhotoImage, Text
+import sys
+from pathlib import Path
 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+import os
+from EmotionAnalysis import EA
 
 
 class FifthGUI:
@@ -51,9 +56,17 @@ class FifthGUI:
         self.button_2.place(x=1380.0, y=25.0)
 
         self.entry_image_1 = self.load_image("entry_1.png", 809.0, 594.5)
-
-        self.entry_1 = Entry(bd=0, bg="#141416", fg="#000716", highlightthickness=0)
-        self.entry_1.place(x=179.0, y=430.0, width=1260.0, height=331.0)
+        # self.entry_1 = Entry(bd=0, bg="#141416", fg="#ffffff",font=("Helvetica", 20), highlightthickness=0)
+        # self.entry_1.place(x=179.0, y=430.0, width=1260.0, height=331.0)
+        self.text_1 = Text(
+            self.window,
+            bd=0,
+            bg="#141416",
+            fg="#ffffff",
+            font=("Helvetica", 20),
+            highlightthickness=0,
+        )
+        self.text_1.place(x=179.0, y=430.0, width=1260.0, height=331.0)
 
         self.image_3 = self.load_image("image_3.png", 824.0, 209.0)
         self.button_3 = Button(
@@ -74,7 +87,16 @@ class FifthGUI:
         second_window.run()
 
     def on_button_3_click(self):
-        print("Button 3 clicked!")
+        import requests
+
+        sa = EA()
+        output = sa.Analysis()
+        formatted_output = f"\n\n\nStatus: {output['label'].capitalize()}.\n\nScore: {output['score']*100:.2f}%."
+        self.text_1.delete(1.0, "end")
+        self.text_1.insert(1.0, formatted_output)
+        self.text_1.tag_add("bold", "4.0", "4.6")  # make "Status:" bold
+        self.text_1.tag_add("bold", "6.0", "6.5")  # make "Score:" bold
+        self.text_1.tag_config("bold", font=("Helvetica", 20, "bold", "underline"))
 
     def run(self):
         self.window.mainloop()
