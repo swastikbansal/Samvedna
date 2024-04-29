@@ -2,6 +2,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win1 import SecondGUI
 from gui_win4 import FifthGUI
+from gui_win5 import SixthGUI
 
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -69,7 +70,7 @@ class GUI:
 
     def on_button_4_click(self):
         self.window.destroy()
-        second_window = FifthGUI(self.shared_data)
+        second_window = SixthGUI(self.shared_data)
         second_window.run()
 
     def on_button_5_click(self):
