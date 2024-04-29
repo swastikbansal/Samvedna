@@ -72,8 +72,11 @@ class FourthGUI:
         self.entry_1.place(x=194.0, y=534.0, width=540.0, height=218.0)
 
     def on_button_2_click(self):
-        print("Button 2 clicked!")
-
+        # t = T2S()
+        # text = t.speech_to_text()
+        # self.entry_1.delete(0, tk.END)
+        # self.entry_1.insert(0, text)
+        pass
     def on_button_3_click(self):
         print("Convert")
         entry = self.entry_1.get()
