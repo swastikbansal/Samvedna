@@ -15,14 +15,18 @@ class SixthGUI:
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win4")
 
     def __init__(self, shared_data=None):
-
-        self.window = Tk()
-
-        self.create_widgets()
-        self.window.geometry("1500x780")
-        self.window.configure(bg="#141416")
-        self.window.resizable(False, False)
         self.shared_data = shared_data
+        self.window = Tk()
+        self.create_widgets()
+        window_width = 1500
+        window_height = 780
+        screen_width = self.window.winfo_screenwidth()
+        position_top = 0
+        position_right = int(screen_width / 2 - window_width / 2)
+        self.window.geometry(
+            f"{window_width}x{window_height}+{position_right}+{position_top}"
+        )
+        self.window.configure(bg="#141416")
 
     @staticmethod
     def relative_to_assets(path: str) -> Path:

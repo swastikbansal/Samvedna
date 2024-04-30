@@ -3,19 +3,27 @@ from tkinter import Tk, Canvas, Entry, PhotoImage, Button
 import tkinter as tk
 import sys
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from Text2ASL import T2S
+
 
 class FourthGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win3")
 
     def __init__(self, shared_data=None):
-        self.window = Tk()
-        self.window.geometry("1500x780")
-        self.window.configure(bg="#141416")
-        self.window.resizable(False, False)
         self.shared_data = shared_data
+        self.window = Tk()
+        window_width = 1500
+        window_height = 780
+        screen_width = self.window.winfo_screenwidth()
+        position_top = 0
+        position_right = int(screen_width / 2 - window_width / 2)
+        self.window.geometry(
+            f"{window_width}x{window_height}+{position_right}+{position_top}"
+        )
+        self.window.configure(bg="#141416")
 
         self.canvas = Canvas(
             self.window,
@@ -68,7 +76,9 @@ class FourthGUI:
         self.image_6 = self.load_image("image_6.png", 60.0, 391.02142333984375)
 
         self.entry_image_1 = self.load_image("entry_1.png", 464.0, 643.0)
-        self.entry_1 = Entry(bd=0, bg="#141416", fg="#ffffff", font=("Arial", 20),highlightthickness=0)
+        self.entry_1 = Entry(
+            bd=0, bg="#141416", fg="#ffffff", font=("Arial", 20), highlightthickness=0
+        )
         self.entry_1.place(x=194.0, y=534.0, width=540.0, height=218.0)
 
     def on_button_2_click(self):
@@ -77,6 +87,7 @@ class FourthGUI:
         # self.entry_1.delete(0, tk.END)
         # self.entry_1.insert(0, text)
         pass
+
     def on_button_3_click(self):
         print("Convert")
         entry = self.entry_1.get()
@@ -86,8 +97,10 @@ class FourthGUI:
         import io
 
         # Create a container widget to display the video widgets
-        folder_path = os.getcwd() + r'\ASL dataset' # Change this to the path of your image folder
-        video_widgets = t.display_word_videos(entry,folder_path)
+        folder_path = (
+            os.getcwd() + r"\ASL dataset"
+        )  # Change this to the path of your image folder
+        video_widgets = t.display_word_videos(entry, folder_path)
 
         self.vedio_canvas = Canvas(
             self.window,
@@ -137,7 +150,6 @@ class FourthGUI:
 
         # Start the update process
         update_image()
-           
 
     def on_button_5_click(self):
         self.window.destroy()
