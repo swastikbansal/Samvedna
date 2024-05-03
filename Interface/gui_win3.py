@@ -1,6 +1,9 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, PhotoImage, Button
 import tkinter as tk
+import sounddevice as sd
+from scipy.io.wavfile import write
+import speech_recognition as sr
 import sys
 from pathlib import Path
 
@@ -11,6 +14,21 @@ from Text2ASL import T2S
 class FourthGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win3")
+    
+    def record_audio(duration, filename, fs=44100):
+        print("Recording...")
+        recording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
+        sd.wait()  # Wait until recording is finished
+        write(filename, fs, recording)  # Save as WAV file
+        print("Recording finished and saved to", filename)
+
+    def convert_audio_to_text(filename):
+        r = sr.Recognizer()
+        audio_file = sr.AudioFile(filename)
+        with audio_file as source:
+            audio = r.record(source)
+        text = r.recognize_google(audio)
+        return text
 
     def __init__(self, shared_data=None):
         self.shared_data = shared_data
