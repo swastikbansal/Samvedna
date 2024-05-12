@@ -1,8 +1,5 @@
-from pathlib import Path
-from tkinter import Tk, Canvas, Entry, PhotoImage, Button
 import tkinter as tk
-import sounddevice as sd
-from scipy.io.wavfile import write
+from tkinter import Tk, Canvas, Entry, PhotoImage, Button
 import speech_recognition as sr
 import sys
 from pathlib import Path
@@ -14,21 +11,6 @@ from Text2ASL import T2S
 class FourthGUI:
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"assets_win3")
-    
-    def record_audio(duration, filename, fs=44100):
-        print("Recording...")
-        recording = sd.rec(int(duration * fs), samplerate=fs, channels=2)
-        sd.wait()  # Wait until recording is finished
-        write(filename, fs, recording)  # Save as WAV file
-        print("Recording finished and saved to", filename)
-
-    def convert_audio_to_text(filename):
-        r = sr.Recognizer()
-        audio_file = sr.AudioFile(filename)
-        with audio_file as source:
-            audio = r.record(source)
-        text = r.recognize_google(audio)
-        return text
 
     def __init__(self, shared_data=None):
         self.shared_data = shared_data
@@ -63,7 +45,7 @@ class FourthGUI:
             bg="#141416",
             borderwidth=0,
             highlightthickness=0,
-            command=self.on_button_2_click,
+            command=self.recognize_speech,
         )
         self.button_2.place(x=240.0, y=255.0)
 
@@ -98,27 +80,53 @@ class FourthGUI:
             bd=0, bg="#141416", fg="#ffffff", font=("Arial", 20), highlightthickness=0
         )
         self.entry_1.place(x=194.0, y=534.0, width=540.0, height=218.0)
+        text = self.entry_1.get()
 
-    def on_button_2_click(self):
-        # t = T2S()
-        # text = t.speech_to_text()
-        # self.entry_1.delete(0, tk.END)
-        # self.entry_1.insert(0, text)
-        pass
+    def recognize_speech(self):
+        recognizer = sr.Recognizer()
+        with sr.Microphone() as source:
+            print("Listening...")
+            audio = recognizer.listen(source)
+        try:
+            recognized_text = recognizer.recognize_google(audio)
+            # Update GUI with recognized text
+            self.entry_1.delete(0, tk.END)
+            self.entry_1.insert(tk.END, recognized_text)
+        except sr.UnknownValueError:
+            print("Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            print(
+                "Could not request results from Speech Recognition service; {0}".format(
+                    e
+                )
+            )
 
     def on_button_3_click(self):
         print("Convert")
         entry = self.entry_1.get()
         t = T2S()
         from PIL import Image, ImageTk
-        import os
         import io
 
         # Create a container widget to display the video widgets
-        folder_path = (
-            os.getcwd() + r"\ASL dataset"
-        )  # Change this to the path of your image folder
-        video_widgets = t.display_word_videos(entry, folder_path)
+        import os
+        from pathlib import Path
+
+        # # Get the working directory
+        working_dir = Path(os.getcwd())
+
+        # Construct the relative path
+        folder_path = working_dir / "ASL dataset"
+
+        # Print the current working directory and the constructed path
+        print(f"Working directory: {os.getcwd()}")
+        print(f"Constructed path: {folder_path}")
+
+        # Continue with your code
+        if not folder_path.exists():
+            print(f"Error: The directory {folder_path} does not exist.")
+        else:
+            video_widgets = t.display_word_videos(entry, folder_path)
 
         self.vedio_canvas = Canvas(
             self.window,

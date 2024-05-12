@@ -94,10 +94,19 @@ class SixthGUI:
         summarizer = ImageSummarizer()
         summarizer.capture_and_save_image()
         output = summarizer.query(os.getcwd() + "\general_image.jpg")
-        formatted_output = output[0]["generated_text"].capitalize()
-        formatted_output += "."
-        self.entry_1.delete(0, "end")
-        self.entry_1.insert(0, formatted_output)
+
+        # Ensure output is a list and it has at least one element
+        if isinstance(output, list) and len(output) > 0:
+            # Ensure the first element of output is a dictionary and it has a 'generated_text' key
+            if isinstance(output[0], dict) and "generated_text" in output[0]:
+                formatted_output = output[0]["generated_text"].capitalize()
+                formatted_output += "."
+                self.entry_1.delete(0, "end")
+                self.entry_1.insert(0, formatted_output)
+            else:
+                print("The first element of output is not a dictionary or does not have a 'generated_text' key")
+        else:
+            print("Output is not a list or is an empty list")
 
     def run(self):
         self.window.mainloop()

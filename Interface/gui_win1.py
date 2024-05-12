@@ -3,12 +3,16 @@ from tkinter import Tk, Canvas, Button, PhotoImage
 from gui_win2 import ThirdGUI
 from gui_win3 import FourthGUI
 import threading
+import tkinter as tk
+import queue
 
 import sys
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from model_execute import Model
+
 
 class SecondGUI:
     OUTPUT_PATH = Path(__file__).parent
@@ -90,16 +94,34 @@ class SecondGUI:
         # model.execute()
         second_window = ThirdGUI(self.shared_data)
         # second_window.run()
-        
+
+        q = queue.Queue()
         thread1 = threading.Thread(target=model.execute)
         thread1.start()
-        
-        thread2 = threading.Thread(target=second_window.run)
-        thread2.start()
+
+        self.check_queue(q, second_window)
+        self.window.mainloop()
+
+    def long_running_operation(self, func, q):
+        # Perform your long-running operation here
+        func()
+        # When done, put the result in the queue
+        q.put("Done")
+
+    def check_queue(self, q, second_window):
+        try:
+            # Try to get a result from the queue
+            result = q.get_nowait()
+            # If we got a result, update the GUI
+            if result == "Done":
+                second_window.run()
+        except queue.Empty:
+            # If the queue is empty, schedule the check_queue function to run again
+            self.window.after(100, self.check_queue, q, second_window)
 
     def on_button_5_click(self):
         self.window.destroy()
-        
+
         second_window = FourthGUI(self.shared_data)
         second_window.run()
 
